@@ -1,21 +1,16 @@
 import dotenv from "dotenv";
 dotenv.config();
-
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddings/hf_transformers";
 import Groq from "groq-sdk";
 import { SYSTEM_PROMPT } from "./prompt.js";
-
 if (!process.env.GROQ_API_KEY) {
   throw new Error(" GROQ_API_KEY missing in .env");
 }
-
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
-
 const VECTORSTORE_PATH = "./vectordb";
-
 export const askDoubt = async (question, mode = "simple") => {
   try {
     const embeddings = new HuggingFaceTransformersEmbeddings({
@@ -39,10 +34,8 @@ export const askDoubt = async (question, mode = "simple") => {
           role: "user",
           content: `
 Answer in a ${mode}, student-friendly way.
-
 Context:
 ${context}
-
 Question:
 ${question}
           `,

@@ -1,18 +1,14 @@
 import { useState } from "react";
-
 export default function App() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const askBackend = async () => {
     if (!question.trim()) return;
-
     setLoading(true);
     setError("");
     setAnswer("");
-
     try {
       const res = await fetch("http://localhost:5000/ask", {
         method: "POST",
@@ -24,13 +20,11 @@ export default function App() {
           mode: "step-by-step",
         }),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
         throw new Error(data.error || "Backend error");
       }
-
       setAnswer(data.answer);
     } catch (err) {
       setError(err.message);
@@ -38,7 +32,6 @@ export default function App() {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="max-w-4xl w-full rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl p-10">
